@@ -1,9 +1,11 @@
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Frame {
     public void initialFrame() {
@@ -21,7 +23,19 @@ public class Frame {
         		
     			@Override
     			public void actionPerformed(ActionEvent e) {
-    				File file = new File("musica.wav");
+    				
+    				//creates a JFileChooser object to select the .wav file from file explorer
+    		    	final JFileChooser fc = new JFileChooser(); 
+    		    	
+    		    	//creates a FileNameExtensionFilter object to show only .wav files
+    				FileNameExtensionFilter filter = new FileNameExtensionFilter(".wav files", "wav");
+    				
+    				//passes the wav filter to the file chooser
+    				fc.setFileFilter(filter);
+    				
+    				int returnVal = fc.showOpenDialog(frame);
+    				File file = fc.getSelectedFile();
+
     				try {
 						PlayerManager.play(file);
 	    				JOptionPane.showMessageDialog(frame, "Song being played.\nPress OK to return");
