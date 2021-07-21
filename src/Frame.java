@@ -7,12 +7,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
+
 public class Frame {
     public void initialFrame() {
     	//creating and setting the frame and the button settings.
+    	JButton button = new JButton("Play");
     	JFrame frame = new JFrame();
-        JButton button = new JButton("Play");
-        frame.setSize(640,480);
+    	frame.setLocationRelativeTo(null);
+        frame.setSize(320,160);
         frame.setTitle(".WAV player");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.add(button);
@@ -33,7 +36,9 @@ public class Frame {
     				//passes the wav filter to the file chooser
     				fc.setFileFilter(filter);
     				
-    				int returnVal = fc.showOpenDialog(frame);
+    				//returnval = 0 if a file is selected and 1 if it is not. It's used on the try/catch statement down below
+    				int returnVal = fc.showOpenDialog(frame); 
+    				System.out.println(returnVal);
     				File file = fc.getSelectedFile();
 
     				try {
@@ -41,8 +46,17 @@ public class Frame {
 	    				JOptionPane.showMessageDialog(frame, "Song being played.\nPress OK to return");
 	    				PlayerManager.stop();
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(
-						        frame, "Error", "Failure", JOptionPane.ERROR_MESSAGE);
+						// a file was selected
+						if(returnVal==0) {
+							JOptionPane.showMessageDialog(
+							        frame, "Unsupported extension\nPlease choose a .wav file", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						// a file was not selected
+						else {
+							JOptionPane.showMessageDialog(
+							        frame, "Please select a file", "Failure", JOptionPane.ERROR_MESSAGE);
+						}
+
 					}
     			}
         	};
