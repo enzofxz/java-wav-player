@@ -5,17 +5,24 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class PlayerManager {
-	static AudioInputStream audioStream; // creates a clip and a audioinputstream to play the wav file
+	static AudioInputStream audioStream; 
     static Clip clip;
     
 	public static void play(File song) throws Exception{
-			audioStream = AudioSystem.getAudioInputStream(song);
-			clip = AudioSystem.getClip();
-	        clip.open(audioStream);
-	        clip.start(); // starts playing the .wav file
+		audioStream = AudioSystem.getAudioInputStream(song);
+		clip = AudioSystem.getClip();
+	    clip.open(audioStream);
+	    clip.start(); 
 
     }
-	public static void stop() {
-		clip.stop();
+	//it stops if the song is running and resumes if it is not
+	public static void stopresume() {
+		if(clip.isRunning()) {
+			clip.stop();
+		}
+		else {
+			clip.start();
+		}
+
 	}
 }
